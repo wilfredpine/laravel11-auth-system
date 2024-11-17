@@ -111,6 +111,73 @@ MAIL_FROM_NAME="${APP_NAME}"
 `php artisan vendor:publish --provider="Spatie\Csp\CspServiceProvider"`
 
     Define your policy in app/Http/Middleware/AddCspHeaders.php.
+    Create Middleware
+
+`php artisan make:middleware AddCspHeaders`
+
+    Open the AddCspHeaders.php file and modify it to include your CSP headers:
+
+<?php
+namespace App\Http\Middleware;
+use Closure;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
+class AddCspHeaders
+{
+    /**
+     * Handle an incoming request.
+     *
+     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     */
+    public function handle(Request $request, Closure $next): Response
+    {
+        $response = $next($request);
+
+        $csp = "
+            default-src 'self';
+            script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com;
+            style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+            img-src 'self' data:;
+            font-src 'self' https://fonts.gstatic.com;
+            connect-src 'self';
+        "; //allow the necessary resources
+
+        // $csp = "default-src * 'unsafe-inline' 'unsafe-eval';"; // for debugging
+
+        $response->headers->set('Content-Security-Policy', $csp);
+
+        return $response;
+    }
+}
+
+    Register your middleware in the bootstrap/app.php file
+
+<?php
+use Illuminate\Foundation\Application;
+use Illuminate\Foundation\Configuration\Exceptions;
+use Illuminate\Foundation\Configuration\Middleware;
+use App\Http\Middleware\AddCspHeaders;
+return Application::configure(basePath: dirname(__DIR__))
+    ->withRouting(
+        web: __DIR__.'/../routes/web.php',
+        commands: __DIR__.'/../routes/console.php',
+        health: '/up',
+    )
+    ->withMiddleware(function (Middleware $middleware) {
+        // Add your global middleware here
+        $middleware->use([
+            AddCspHeaders::class
+        ]);
+    })
+    ->withExceptions(function (Exceptions $exceptions) {
+        //
+    })->create();
+
+
+    After setting up the middleware, start your Laravel development server:
+
+`php artisan serve`
+
 
 15. Logging
     Laravel's logging system is enabled by default. You can configure it in config/logging.php.

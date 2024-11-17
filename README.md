@@ -18,7 +18,7 @@ Whats in Laravel 11 authentication system:
 - Login/Logout: Secure sessions.
 - Email Verification: Protect against invalid users.
 - Forgot Password: Password reset functionality.
-- Brute Force Protection: Rate limiting.
 - SQL Injection, XSS, CSRF Protection: Built-in security features.
 - CSP: Additional header security.
 - Logs: Monitor system activities.
+- Brute Force Protection: Rate limiting.
