@@ -3,14 +3,16 @@ A simple authentication system using laravel framework.
 
 - Clone the project
 - Navigate to the project's root directory using terminal
+- Create .env file (rename .env.example)
 - Execute `composer install`
 - Execute `npm install`
 - Set application key - `php artisan key:generate --ansi`
 - Execute migrations and seed data - `php artisan migrate --seed`
-- Start vite server - `npm run dev`
-- Start Artisan server - `php artisan serve`
+- Open new terminal and start vite server - `npm run dev`
+- Open new terminal and start Artisan server - `php artisan serve`
+- Browse [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
 
-Laravel 11 authentication system with:
+Whats in Laravel 11 authentication system:
 
 - Registration: Role-based user creation.
 - Login/Logout: Secure sessions.
