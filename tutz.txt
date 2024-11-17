@@ -1,0 +1,119 @@
+1. create a new Laravel project:
+
+`composer create-project laravel/laravel laravel11-auth-system`
+`cd laravel11-auth-system`
+
+2. Install Laravel Breeze for basic authentication scaffolding:
+
+`composer require laravel/breeze --dev`
+`php artisan breeze:install`
+> blade
+> no
+> (enter)
+
+3. Install the frontend dependencies and build the assets:
+
+`npm install`
+`npm run dev`
+
+4. Run migrations to set up the database schema:
+    Open New terminal
+
+`php artisan migrate`
+
+5. Start the Laravel development server:
+
+`php artisan serve`
+
+6. Implement Multiple User Roles
+    Update the users table migration to include a role column:
+    /migrations/001_01_01_000000_create_users_table.php
+
+$table->string('role')->default('user'); // Add this line in the users migration
+
+7. Run the migration:
+    Open New terminal
+
+`php artisan migrate:refresh`
+
+8. Assign roles during user registration in RegisterController.php:
+
+    use App\Models\User;
+    public function store(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ]);
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role' => 'user', // Default role
+        ]);
+        event(new Registered($user));
+        Auth::login($user);
+        return redirect(route('dashboard', absolute: false));
+    }
+
+9. Email Verification
+    Enable email verification in the User model:
+    /app/User.php
+
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+class User extends Authenticatable implements MustVerifyEmail
+{
+    // ...
+}
+
+10. Add the verified middleware to your routes in web.php:
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Run the following command to send email verification links:
+
+`php artisan make:mail VerifyEmail`
+
+11. Forgot Password
+    Laravel includes a pre-built password reset system. To enable it, ensure you have the correct email configuration in .env:
+
+MAIL_MAILER=smtp
+MAIL_HOST=your-mail-host
+MAIL_PORT=587
+MAIL_USERNAME=your-mail-username
+MAIL_PASSWORD=your-mail-password
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS=your-email@example.com
+MAIL_FROM_NAME="${APP_NAME}"
+
+12. SQL Injection & XSS Protection
+    Laravel automatically protects against SQL injection by using parameterized queries. 
+    For XSS, escape output using {{ $data }} instead of {!! $data !!}.
+
+13. CSRF Protection
+    CSRF protection is enabled by default in Laravel. Verify it in your forms:
+
+    <form method="POST" action="/login">
+        @csrf
+        <!-- form fields -->
+    </form>
+
+14. Content Security Policy (CSP)
+    Install a package like spatie/laravel-csp:
+
+`composer require spatie/laravel-csp`
+
+    Publish the configuration:
+
+`php artisan vendor:publish --provider="Spatie\Csp\CspServiceProvider"`
+
+    Define your policy in app/Http/Middleware/AddCspHeaders.php.
+
+15. Logging
+    Laravel's logging system is enabled by default. You can configure it in config/logging.php.
+
+16. Brute Force Protection
+
