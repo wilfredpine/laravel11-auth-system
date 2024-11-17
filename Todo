@@ -1,4 +1,8 @@
 Todo:
 - Rate Limiter
 - Filter type of data can access in public (e.g. block `.exe` files)
-- Sample Upload image with validation security
+- Sample Upload image with validation
+- redirect user based on Role
+- add validation in controller (only allowed user can access that controller based on Role)
+- add sample CRUD in every Role's page
+- validation in Role's page (other user cannot allow to access other's data)
