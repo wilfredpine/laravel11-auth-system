@@ -1,5 +1,5 @@
 # laravel11-auth-system
-A simple authentication system using laravel framework.
+A sample implementation of Laravel's built-in authentication system, Content Security Policy (CSP), and rate limiting. Laravel will automatically enforce protection against SQL injection, XSS, CSRF, and provide logging.
 
 - Clone the project
 - Navigate to the project's root directory using terminal
