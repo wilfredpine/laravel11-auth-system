@@ -23,3 +23,7 @@ Whats in Laravel 11 authentication system:
 - Logs: Monitor system activities.
 - Brute Force Protection: Rate limiting.
 - Multiple Role Managemnent (Page's User{Role/Access} Validation)
+
+### Want to learn Laravel?
+
+[YouTube](https://www.youtube.com/@confired-official/)
