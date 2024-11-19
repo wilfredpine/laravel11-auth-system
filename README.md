@@ -24,6 +24,24 @@ Whats in Laravel 11 authentication system:
 - Brute Force Protection: Rate limiting.
 - Multiple Role Managemnent (Page's User{Role/Access} Validation)
 
-### Want to learn Laravel?
+## Want to learn PHP and Laravel?
+
+[PHP-Tutorial](https://github.com/wilfredpine/PHP-Tutorial)
 
 [YouTube](https://www.youtube.com/@confired-official/)
+
+## Thanks me by
+
+Following [wilfredpine](https://github.com/wilfredpine/)
+
+Starred & Forked [laravel11-auth-system](https://github.com/wilfredpine/laravel11-auth-system)
+
+Subscribe at [confired-official](https://www.youtube.com/@confired-official/)
+
+## Learn more?
+
+[expressjs-auth-system](https://github.com/wilfredpine/expressjs-auth-system)
+
+[django-auth-system](https://github.com/wilfredpine/django-auth-system)
+
+[lavalust-auth-system](https://github.com/wilfredpine/lavalust-auth-system)
